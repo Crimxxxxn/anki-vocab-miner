@@ -18,12 +18,12 @@ allowedWords = {"名詞", "動詞", "形容詞", "副詞"} #{"noun, verb, adject
 
 tokenizer = Dictionary().create()
 
-defaultPath = input("Enter file path: ") #User inputs directory of the desired text file to mine
-fileToRead = defaultPath.replace('\\', '/') #Backslashes are replaced with forward slashes as they create issues
+filePathInput = input("Enter file path of text file: ") #User inputs directory of the desired text file to mine
+fileToRead = filePathInput.replace('\\', '/') #Backslashes are replaced with forward slashes as they create issues
 
 text = readText(fileToRead)
 
-tokens = tokenizer.tokenize(text)
+tokens = tokenizer.tokenize(text) #tokenizer to separate words
 
 wordsExtracted = set()
 
@@ -33,18 +33,19 @@ for token in tokens:
 
     if wordType[0] in allowedWords:
         wordsExtracted.add(token.dictionary_form())
-print(wordsExtracted)
+##print("found:" , wordsExtracted)
 
 
 newWords = set()
+
+deckToScan = input("Input name of deck to scan: ")
 
 for word in wordsExtracted:
     payload = {
         "action": "findNotes",
         "version": 6,
         "params": {
-            # Searches for the word within the Kaishi deck
-            "query": f'deck:"Kaishi 1.5k" {word}' 
+            "query": f'deck:"{deckToScan}" {word}' 
         }
     }
 
@@ -52,9 +53,10 @@ for word in wordsExtracted:
     note_ids = response.get("result", [])
 
     if note_ids:
+        ##print(f"'{word} is already in deck")
         continue
     else:
-        print(f"'{word}' is NEW (not found in deck).")
+        ##print(f"'{word}' is not in deck")
         newWords.add(word)
 
 
@@ -64,5 +66,3 @@ output_file = "new_words.txt"
 with open(output_file, "w", encoding="utf-8") as f:
     for word in newWords:
         f.write(f"{word}\n")
-
-print(f"Successfully saved {len(newWords)} new words to {output_file}!")

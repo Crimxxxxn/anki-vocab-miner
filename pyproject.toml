@@ -1,3 +1,4 @@
 [project]
 name = "JP_Word_Scanner_Crimxxxn"
-version = "0.1"
+version = "1.0"
+dependencies = ["Sudachipy"]
