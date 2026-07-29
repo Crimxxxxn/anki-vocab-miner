@@ -11,11 +11,11 @@ This is a tool I made to help me batch mine words that I don't know (that aren't
 7. You can then use your browser extensions if you have them enabled, and can mine the words quickly as you have a list of them
 
 ## Prerequisites
-*Python 3.8 or higher
-*Anki
-*AnkiConnect addon installed on Anki
-*[SudachiPy](https://github.com/WorksApplications/SudachiPy)
-*[requests](https://requests.readthedocs.io/)
+Python 3.8 or higher
+Anki
+AnkiConnect addon installed on Anki
+[SudachiPy](https://github.com/WorksApplications/SudachiPy)
+[requests](https://requests.readthedocs.io/)
 
 ## License
 This project is licensed under the MIT license. See the LICENSE file for details.
