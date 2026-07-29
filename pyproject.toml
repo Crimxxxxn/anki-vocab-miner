@@ -1,4 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "JP_Word_Scanner_Crimxxxn"
+name = "anki-vocab-miner-Crimxxxxn"
 version = "1.0"
-dependencies = ["Sudachipy"]
+description = "Japanese word scanner to help with batch mining words for anki"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+    { name = "Crimxxxn" }
+]
+
+dependencies = [
+    "sudachipy",
+    "sudachidict-full",
+    "requests"
+]
+
+[project.urls]
+Repository = "https://github.com/Crimxxxxn/anki-vocab-miner"
