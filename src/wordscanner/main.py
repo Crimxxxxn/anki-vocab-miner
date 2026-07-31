@@ -33,13 +33,54 @@ for token in tokens:
 
     if wordType[0] in allowedWords:
         wordsExtracted.add(token.dictionary_form())
-##print("found:" , wordsExtracted)
+print("found:" , wordsExtracted)
 
 
 newWords = set()
 
-deckToScan = input("Input name of deck to scan: ")
+deckToScan = input("Ensure that anki is running\nInput name of deck to scan: ")
 
+payload = {
+        "action": "findNotes",
+        "version": 6,
+        "params": {
+            "query": f'deck:"{deckToScan}"' 
+        }
+    }
+
+response = requests.post("http://localhost:8765", json=payload).json()
+note_ids = response.get("result", [])
+
+payload = {
+    "action": "notesInfo",
+    "version": 6,
+    "params": {
+        "notes": note_ids
+    }
+}
+
+response = requests.post("http://localhost:8765", json=payload).json()
+notes = response["result"]
+
+
+wordFieldName = input("Input the name of the word field to scan for your deck (e.g 'Word'): ")
+
+existing_words = set()
+
+for note in notes:
+    existing_words.add(note["fields"][f"{wordFieldName}"]["value"])
+
+newWords = wordsExtracted - existing_words
+
+for word in wordsExtracted:
+    if word in existing_words:
+        print(f"'{word}' is already in deck")
+    else:
+        print(f"'{word}' is not in deck")
+
+print("new words:" , newWords)
+
+"""
 for word in wordsExtracted:
     payload = {
         "action": "findNotes",
@@ -58,7 +99,7 @@ for word in wordsExtracted:
     else:
         ##print(f"'{word}' is not in deck")
         newWords.add(word)
-
+"""
 
 output_file = "new_words.txt"
 
